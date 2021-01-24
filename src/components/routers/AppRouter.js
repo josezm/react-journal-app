@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
   Switch,
-  Route,
   HashRouter,
   Redirect
 } from "react-router-dom";
@@ -12,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../actions/auth';
 import { PrivateRoute } from './PrivateRoutes';
 import { PublicRoute } from './PublicRoutes';
+import { startLoadingNotes } from '../../actions/notes';
 
 export const AppRouter = () => {
 
@@ -21,21 +21,23 @@ export const AppRouter = () => {
   const [logged, setlogged] = useState(false)
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged( user =>{
+    firebase.auth().onAuthStateChanged( async user =>{
       if(user?.uid){
         dispatch(login(user.uid, user.displayName));
         setlogged(true);
+        dispatch(startLoadingNotes(user.uid));
+
       }
       else{
         setlogged(false);
       }
       setchecking(false);
     });
-  }, [dispatch])
+  }, [dispatch, setchecking, setlogged])
 
   if (checking){
     return (
-      <h1> Cargando ... </h1>
+      <h1 className = 'auth__main'> Loading ... </h1>
     )
   }
 

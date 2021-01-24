@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom';
-import { login, startGoogleLogin, startLoginEmailPassword } from '../../actions/auth';
+import { startGoogleLogin, startLoginEmailPassword } from '../../actions/auth';
 import { useForm } from '../../hooks/useForm';
 
 export const LoginScreen = () => {
@@ -11,8 +11,8 @@ export const LoginScreen = () => {
     const {loading} = useSelector( state => state.ui);
 
     const [formValues, handleIpuntChange] = useForm({
-        email: 'h@fasd.com',
-        password : '123456'
+        email: '',
+        password : ''
     });
 
     const {email, password} = formValues;
@@ -31,7 +31,7 @@ export const LoginScreen = () => {
     return (
         <>
            <h3 className = 'auth__title'>Login</h3> 
-           <form onSubmit = {handleLogin}>
+           <form onSubmit = {handleLogin} className = 'animate__animated animate__fadeIn'>
                 <input 
                     type = 'text'
                     placeholder = 'Email'
